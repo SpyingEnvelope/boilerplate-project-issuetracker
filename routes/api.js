@@ -1,5 +1,6 @@
 'use strict';
 
+const e = require('express');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 require('dotenv').config();
@@ -11,6 +12,7 @@ module.exports = function (app) {
 
   //Schema to store new project issues
   const projectSchema = new Schema({
+    'project_name': {type: String, required: true},
     'assigned_to': String,
     'status_text': String,
     'open': Boolean,
@@ -26,7 +28,21 @@ module.exports = function (app) {
   app.route('/api/issues/:project')
 
     .get(function (req, res){
+      console.log(req.query);
       let project = req.params.project;
+
+      let projectJson = req.query;
+      projectJson['project_name'] = project;
+
+      ProjectIssue.find(projectJson, (err, data) => {
+        if (err) {
+          console.log(err);
+          res.send(err);
+        } else {
+          console.log(data);
+          res.send(data);
+        }
+      });
       
     })
     
@@ -35,6 +51,7 @@ module.exports = function (app) {
       console.log(req.params.project);
       
       const newIssue = new ProjectIssue({
+        'project_name': req.params.project,
         'assigned_to': (req.body['assigned_to'] ? req.body['assigned_to'] : ""),
         'status_text': (req.body['status_text'] ? req.body['assigned_to'] : ""),
         'open': true,
