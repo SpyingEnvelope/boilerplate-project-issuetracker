@@ -4,6 +4,9 @@ const express     = require('express');
 const bodyParser  = require('body-parser');
 const expect      = require('chai').expect;
 const cors        = require('cors');
+const mongoose    = require('mongoose');
+const Schema = mongoose.Schema;
+
 require('dotenv').config();
 
 const apiRoutes         = require('./routes/api.js');
@@ -15,8 +18,6 @@ let app = express();
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
