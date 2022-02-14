@@ -98,7 +98,7 @@ module.exports = function (app) {
         && !req.body['status_text']
         && !req.body['open']
       ) {
-        res.json({error: 'no update field(s) sent', '_id': req.body['_id']})
+        res.json({error: 'no updated field(s) sent', '_id': req.body['_id']})
       } else {         
         ProjectIssue.findById(req.body['_id'], (err, issue) => {
           if (err) {
