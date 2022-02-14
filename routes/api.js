@@ -104,6 +104,8 @@ module.exports = function (app) {
           if (err) {
             console.log(err);
             res.json( {'error': 'could not update', '_id': req.body['_id']})
+          } else if (!issue) {
+            res.json( {'error': 'could not update', '_id': req.body['_id']});
           } else {
             if (req.body['issue_title']) { issue['issue_title'] = req.body['issue_title'] }
             if (req.body['issue_text']) { issue['issue_text'] = req.body['issue_text'] }
