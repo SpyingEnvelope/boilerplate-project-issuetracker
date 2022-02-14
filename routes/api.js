@@ -115,7 +115,7 @@ module.exports = function (app) {
             issue.save((err, data) => {
               if (err) {
                 console.log(err);
-                res.json({'error': err})
+                res.json({'error': 'could not update', '_id': req.body['_id']})
               } else {
                 console.log(data);
                 res.json( {result: 'successfully updated', '_id': req.body['_id']})
@@ -130,7 +130,22 @@ module.exports = function (app) {
     
     .delete(function (req, res){
       let project = req.params.project;
-      
+      if (!req.body['_id']) { 
+        res.json({error: 'missing _id' }) 
+      } else {
+        ProjectIssue.findByIdAndRemove(req.body['_id'], (err, data) => {
+          if (err) {
+            console.log(err);
+            res.json({error: 'could not delete', '_id': req.body['_id']});
+          } else if (!data) {
+            console.log(data);
+            res.json({error: 'could not delete', '_id': req.body['_id']});
+          } else {
+            console.log(data);
+            res.json({result: 'successfully deleted', '_id': req.body['_id']})
+          }
+        })
+      }
     });
     
 };
