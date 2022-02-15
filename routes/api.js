@@ -28,7 +28,6 @@ module.exports = function (app) {
   app.route('/api/issues/:project')
 
     .get(function (req, res){
-      console.log(req.query);
       let project = req.params.project;
 
       let projectJson = req.query;
@@ -39,7 +38,6 @@ module.exports = function (app) {
           console.log(err);
           res.send(err);
         } else {
-          console.log(data);
           res.send(data);
         }
       });
@@ -47,13 +45,11 @@ module.exports = function (app) {
     })
     
     .post(function (req, res){
-      console.log(req.body);
-      console.log(req.params.project);
       
       const newIssue = new ProjectIssue({
         'project_name': req.params.project,
         'assigned_to': (req.body['assigned_to'] ? req.body['assigned_to'] : ""),
-        'status_text': (req.body['status_text'] ? req.body['assigned_to'] : ""),
+        'status_text': (req.body['status_text'] ? req.body['status_text'] : ""),
         'open': true,
         'issue_title': req.body['issue_title'],
         'issue_text': req.body['issue_text'],
